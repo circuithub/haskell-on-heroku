@@ -191,10 +191,7 @@ function create_sandbox () {
 	sandbox_description=$( echo_sandbox_description "${sandbox_tag}" ) || die
 
 	log "Creating ${sandbox_description}"
-
-	if ! [ -d "${HALCYON_DIR}/sandbox" ]; then
-		cabal_create_sandbox "${HALCYON_DIR}/sandbox" || die
-	fi
+	cabal_create_sandbox "${HALCYON_DIR}/sandbox" || die
 }
 
 
