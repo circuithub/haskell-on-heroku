@@ -6,6 +6,8 @@ function echo_cabal_original_url () {
 	expect_args cabal_version -- "$@"
 
 	case "${cabal_version}" in
+	'1.20.0.3')
+		echo 'http://www.haskell.org/cabal/release/cabal-install-1.20.0.3/cabal-install-1.20.0.3.tar.gz';;
 	'1.20.0.2')
 		echo 'http://www.haskell.org/cabal/release/cabal-install-1.20.0.2/cabal-install-1.20.0.2.tar.gz';;
 	'1.20.0.1')
@@ -25,7 +27,7 @@ function echo_cabal_original_url () {
 
 
 function echo_cabal_default_version () {
-	echo '1.20.0.2'
+	echo '1.20.0.3'
 }
 
 
@@ -421,6 +423,17 @@ function build_cabal () {
 	ghc_version=$( echo_ghc_tag_version "${ghc_tag}" ) || die
 
 	case "${ghc_version}-${cabal_version}" in
+  '7.8.3-1.20.0.'*)
+    (
+      cd "${tmp_dir}/cabal-install-${cabal_version}" || die
+      patch -s <<-EOF
+        --- a/bootstrap.sh
+        +++ b/bootstrap.sh
+        @@ -218,3 +218,3 @@ install_pkg () {
+
+        -  \${GHC} --make Setup -o Setup ||
+        +  \${GHC} -j -L"${HALCYON_DIR}/ghc/lib" -O2 --make Setup -o Setup ||
+EOF
 	'7.8.2-1.20.0.'*)
 		(
 			cd "${tmp_dir}/cabal-install-${cabal_version}" || die
