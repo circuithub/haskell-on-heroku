@@ -209,7 +209,7 @@ function customize_sandbox () {
 		cd "${HALCYON_DIR}/custom"
 		source "${build_dir}/deploy/prepare.sh"
 		# expect_func custom_prepare
-		custom_prepare "${HALCYON_DIR}/sandbox" || die
+		custom_prepare "${build_dir}" "${HALCYON_DIR}/sandbox" || die
 		log
 		cd ${self_dir}
 	fi
